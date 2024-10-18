@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
+
 @Repository
 public class UserRepository {
 
@@ -26,5 +28,12 @@ public class UserRepository {
                 .update();
 
         Assert.isTrue(affected == 1, "Could not add user");
+    }
+
+    public Optional<UserDomain> findByEmail(String email) {
+        return jdbcClient.sql(FIND_BY_EMAIL)
+                .param("email", email)
+                .query(UserDomain.class)
+                .optional();
     }
 }
