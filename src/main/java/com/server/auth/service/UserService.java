@@ -36,7 +36,7 @@ public class UserService {
         }
 
         String hashedPassword = passwordEncoder.encode(request.password());
-        UserDomain user = new UserDomain(request.name(), request.email(), request.password());
+        UserDomain user = new UserDomain(request.name(), email, hashedPassword);
 
         repository.add(user);
 

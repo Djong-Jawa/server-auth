@@ -26,24 +26,32 @@ public class JwtHelper {
                 .compact();
     }
 
-    public static String extractUsername(String token) {
-        return getTokenBody(token).
+    public static String extractUsername(String token) throws AccessDeniedException {
+        return getTokenBody(token).getSubject();
     }
 
-    public static Boolean validateToken(String token, UserDetails userDetails) {
+    public static Boolean validateToken(String token, UserDetails userDetails) throws AccessDeniedException {
         final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpire(token);
     }
 
-    public static Claims getTokenBody(String token) {
+    public static Claims getTokenBody(String token) throws AccessDeniedException {
         try{
-//            return Jwts
-//                    .parser()
-//                    .setSigningKey(SECRET_KEY)
-//                    .build()
-//                    .parseSignature
-        } catch (SignatureException | ExpiredJwtException e) {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJwt(token)
+                    .getBody();
+
+        } catch (ExpiredJwtException e) {
             throw new AccessDeniedException("Access denied "+e.getMessage());
         }
+    }
+
+    public static boolean isTokenExpire(String token) throws AccessDeniedException {
+        Claims claims = getTokenBody(token);
+        return claims.getExpiration().before(new Date());
     }
 
 
