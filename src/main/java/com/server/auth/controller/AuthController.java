@@ -1,5 +1,6 @@
 package com.server.auth.controller;
 
+import com.server.auth.config.SignatureConvertor;
 import com.server.auth.controller.dto.*;
 import com.server.auth.domain.LoginAttempDomain;
 import com.server.auth.helper.JwtHelper;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.nio.file.AccessDeniedException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +56,7 @@ public class AuthController {
     @ApiResponse(responseCode = "409", content = @Content(schema = @Schema(implementation = ApiErrorResponseDto.class)))
     @ApiResponse(responseCode = "500", content = @Content(schema = @Schema(implementation = ApiErrorResponseDto.class)))
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> signup(@Valid @RequestBody LoginRequestDto requestDto) {
+    public ResponseEntity<LoginResponseDto> signup(@Valid @RequestBody LoginRequestDto requestDto) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.email(), requestDto.password()));
         } catch (BadCredentialsException e) {
@@ -62,7 +65,18 @@ public class AuthController {
             throw e;
         }
 
-        String token = JwtHelper.generateToken(requestDto.email());
+        String privateKeyPEMString = "-----BEGIN OPENSSH PRIVATE KEY-----\n" +
+                "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\n" +
+                "QyNTUxOQAAACBnciTw7lnYACkF31hBsIJxYvY0Hcm+XqgXPic5VaOLzAAAAKCTq71Uk6u9\n" +
+                "VAAAAAtzc2gtZWQyNTUxOQAAACBnciTw7lnYACkF31hBsIJxYvY0Hcm+XqgXPic5VaOLzA\n" +
+                "AAAEC9z/WXZOdpQ9qz/LJYoPMPSkfDYLi4Lgc40te2d6vnJ2dyJPDuWdgAKQXfWEGwgnFi\n" +
+                "9jQdyb5eqBc+JzlVo4vMAAAAF2RhbmFrYXJATkItUTEwMzM1LmxvY2FsAQIDBAUG\n" +
+                "-----END OPENSSH PRIVATE KEY-----\n";
+
+        SignatureConvertor signatureConvertor  = new SignatureConvertor();
+        PrivateKey privateKey = signatureConvertor.getPrivateKeyFromString(privateKeyPEMString);
+
+        String token = JwtHelper.generateToken(requestDto.email(), privateKey);
         loginService.addLoginAttempts(requestDto.email(), true);
         return ResponseEntity.ok(new LoginResponseDto(requestDto.email(), token));
     }
@@ -72,17 +86,24 @@ public class AuthController {
     @ApiResponse(responseCode = "401", content = @Content(schema = @Schema(implementation = ApiErrorResponseDto.class)))
     @ApiResponse(responseCode = "409", content = @Content(schema = @Schema(implementation = ApiErrorResponseDto.class)))
     @ApiResponse(responseCode = "500", content = @Content(schema = @Schema(implementation = ApiErrorResponseDto.class)))
-    @PostMapping("/loginAttempts")
-    public ResponseEntity<List<LoginAttemptResponseDto >> loginAttempts(@RequestHeader("Authorization") String token) {
+    @GetMapping("/loginAttempts")
+    public ResponseEntity<List<LoginAttemptResponseDto >> loginAttempts(@RequestHeader("Authorization") String token , @RequestHeader("publicKey") String publicKeyPEM) {
         try {
-            String email = JwtHelper.extractUsername(token.replace("Bearer", ""));
+            System.out.println("loginAttempts..");
+            System.out.println(token);
+
+            // handling public key
+            SignatureConvertor signatureConvertor = new SignatureConvertor();
+            PublicKey publicKey = signatureConvertor.getPublicKeyFromString(publicKeyPEM);
+
+            String email = JwtHelper.extractUsername(token.replace("Bearer ", ""), publicKey);
             List<LoginAttempDomain> loginAttempts = loginService.findRecentLoginAttempts(email);
             return ResponseEntity.ok(convertToDTOs(loginAttempts));
 
         } catch (BadCredentialsException e) {
             System.out.println("Message : "+e.getMessage());
             throw e;
-        } catch (AccessDeniedException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
