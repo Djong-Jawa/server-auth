@@ -12,6 +12,7 @@ public class SignatureConvertor {
     // Example method to convert Base64 encoded string to PublicKey
     public PublicKey getPublicKeyFromString(String publicKeyStr) throws Exception {
         // Remove any PEM header/footer if present (e.g., "-----BEGIN PUBLIC KEY-----")
+        System.out.println("publicKeyStr : "+publicKeyStr);
         publicKeyStr = publicKeyStr.replaceAll("-----BEGIN PUBLIC KEY-----", "")
                 .replaceAll("-----END PUBLIC KEY-----", "")
                 .replaceAll("\\s+", ""); // Remove any whitespace
