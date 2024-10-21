@@ -94,9 +94,6 @@ public class AuthController {
                 "KIBleU2U7ISxn4twdx1zMw==" +
                 "-----END PRIVATE KEY-----\n";
 
-        SignatureConvertor signatureConvertor  = new SignatureConvertor();
-        PrivateKey privateKey = signatureConvertor.getPrivateKeyFromString(privateKeyPEMString);
-
         String token = JwtHelper.generateToken(requestDto.email(), privateKeyPEMString);
         loginService.addLoginAttempts(requestDto.email(), true);
         return ResponseEntity.ok(new LoginResponseDto(requestDto.email(), token));

@@ -82,9 +82,12 @@ public class JwtHelper {
             // Generate a SecretKey for HS256 algorithm
             SecretKey key = new SecretKeySpec(privateKeyPEMString.getBytes(StandardCharsets.UTF_8), SignatureAlgorithm.HS256.getJcaName());
 
+            // verify public key, token will be encrypted
+
+
             return Jwts
                     .parserBuilder()
-                    .setSigningKey(key) // Use PublicKey to verify RS256 signature
+                    .setSigningKey(key) // Use Private to verify RS256 signature
                     .build()
                     .parseClaimsJws(token)   // Changed to parseClaimsJws for signed JWT
                     .getBody();
