@@ -122,6 +122,7 @@ public class AuthController {
             System.out.println("Message : "+e.getMessage());
             throw e;
         } catch (Exception e) {
+            System.out.println("Exception e");
             throw new RuntimeException(e);
         }
     }

@@ -82,11 +82,17 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
             filterChain.doFilter(request, response);
 
         } catch (IOException e) {
+            System.out.println("Message error in doFilterInternal - IOException");
             ApiErrorResponseDto errorResponse = new ApiErrorResponseDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write(toJson(errorResponse));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Message error in doFilterInternal");
+            ApiErrorResponseDto errorResponse = new ApiErrorResponseDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write(toJson(errorResponse));
+
+            // throw new RuntimeException(e);
         }
     }
 
