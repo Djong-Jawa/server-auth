@@ -34,19 +34,18 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Skip the filter for public endpoints
         String requestURI = request.getRequestURI();
 
-        // Public endpoints to skip JWT authentication
-        if (requestURI.equals("/api/auth/signup") || requestURI.equals("/api/auth/login") || requestURI.equals("/authentication-docs")) {
-            System.out.println("requestURI : "+requestURI);
-            System.out.println("Public endpoints to skip JWT authentication");
+        // Skip the filter for public endpoints
+        if (requestURI.equals("/api/auth/signup") || requestURI.equals("/api/auth/login") ||
+                requestURI.equals("/authentication-docs") || requestURI.equals("/.well-known/jwks.json")) {
+            System.out.println("Public endpoint: " + requestURI);
             filterChain.doFilter(request, response); // Just pass the request down the filter chain
             return;
         }
 
         try {
-            System.out.println("here...");
+            System.out.println("Processing secured endpoint...");
             String authHeader = request.getHeader("Authorization");
 
             // handling public key
@@ -63,17 +62,16 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
             }
 
             if (token == null) {
-                System.out.println("token == null");
                 filterChain.doFilter(request, response);
                 return;
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                System.out.println("username != null");
                 UserDetails userDetails = userDetailService.loadUserByUsername(username);
 
                 if (JwtHelper.validateToken(token, userDetails, publicKey)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, null);
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
@@ -91,8 +89,6 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
             ApiErrorResponseDto errorResponse = new ApiErrorResponseDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write(toJson(errorResponse));
-
-            // throw new RuntimeException(e);
         }
     }
 

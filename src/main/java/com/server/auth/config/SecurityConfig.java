@@ -43,6 +43,7 @@ public class SecurityConfig {
                         // our public endpoint
                         .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/login/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/.well-known/jwks.json", "/.well-known/jwks.json/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/authentication-docs", "/authentication-docs/**").permitAll()
                         // our private endpoint
                         .anyRequest().authenticated()
