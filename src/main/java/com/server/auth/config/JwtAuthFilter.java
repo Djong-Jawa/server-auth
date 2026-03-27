@@ -48,23 +48,19 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
             System.out.println("Processing secured endpoint...");
             String authHeader = request.getHeader("Authorization");
 
-            // handling public key
+            // No Bearer token → let Spring Security decide (returns 401 for protected endpoints)
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // Only parse the public key when a Bearer token is actually present
             String publicKeyString = request.getHeader("publicKey");
             SignatureConvertor signatureConvertor = new SignatureConvertor();
             PublicKey publicKey = signatureConvertor.getPublicKeyFromString(publicKeyString);
 
-            String token = null;
-            String username = null;
-
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                token = authHeader.substring(7);
-                username = JwtHelper.extractUsername(token, publicKey);
-            }
-
-            if (token == null) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+            String token = authHeader.substring(7);
+            String username = JwtHelper.extractUsername(token, publicKey);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailService.loadUserByUsername(username);
@@ -80,14 +76,16 @@ public class JwtAuthFilter extends OncePerRequestFilter  {
             filterChain.doFilter(request, response);
 
         } catch (IOException e) {
-            System.out.println("Message error in doFilterInternal - IOException");
+            System.out.println("Message error in doFilterInternal - IOException: " + e.getMessage());
             ApiErrorResponseDto errorResponse = new ApiErrorResponseDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
             response.getWriter().write(toJson(errorResponse));
         } catch (Exception e) {
-            System.out.println("Message error in doFilterInternal");
+            System.out.println("Message error in doFilterInternal: " + e.getMessage());
             ApiErrorResponseDto errorResponse = new ApiErrorResponseDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
             response.getWriter().write(toJson(errorResponse));
         }
     }

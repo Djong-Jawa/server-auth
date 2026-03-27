@@ -1,0 +1,177 @@
+[
+  {
+    "comment": "Domain records used by JdbcClient.query(Class) – DataClassRowMapper instantiates them via reflection",
+    "name": "com.server.auth.domain.UserDomain",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.server.auth.domain.LoginAttempDomain",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "comment": "All Liquibase SingletonObject implementations for Liquibase 4.28/4.29 – Scope.getSingleton() calls getDeclaredConstructor().newInstance() on every one of these",
+    "name": "liquibase.change.ChangeFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.command.CommandFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.configuration.LiquibaseConfiguration",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.database.DatabaseFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.database.LiquibaseTableNamesFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.datatype.DataTypeFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.diff.compare.DatabaseObjectComparatorFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.diff.DiffGeneratorFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.executor.ExecutorService",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.hub.HubServiceFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.license.LicenseServiceFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.lockservice.LockServiceFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.logging.core.DefaultLoggerConfiguration",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.logging.mdc.MdcManager",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.parser.ChangeLogParserFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.parser.SqlParserFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.precondition.PreconditionFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.report.ShowSummaryGeneratorFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.serializer.ChangeLogSerializerFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.servicelocator.ServiceLocator",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.snapshot.SnapshotGeneratorFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.sqlgenerator.SqlGeneratorFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.structure.DatabaseObjectFactory",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "liquibase.ui.LoggerUIService",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredFields": true
+  },
+  {
+    "comment": "Liquibase database and integration classes",
+    "name": "liquibase.database.core.PostgresDatabase",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "liquibase.integration.spring.SpringLiquibase",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  }
+]

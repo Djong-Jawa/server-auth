@@ -4,6 +4,8 @@ import com.server.auth.service.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,6 +42,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // allow CORS pre-flight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // our public endpoint
                         .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/login/**").permitAll()
@@ -47,7 +51,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/authentication-docs", "/authentication-docs/**").permitAll()
                         // our private endpoint
                         .anyRequest().authenticated()
-                ).authenticationManager(authenticationManager)
+                )
+                // Return 401 (Unauthorized) for unauthenticated requests instead of the default 403
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                )
+                .authenticationManager(authenticationManager)
                 // we need jwt filter before the UsernamePasswordAuthenticationFilter. Sice we need
                 // every request to be authenticated before going through spring security filter
                 // (UsernamePasswordAuthenticationFilter creates a UsernamePasswordAuthenticationToken from
