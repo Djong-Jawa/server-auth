@@ -22,3 +22,8 @@ New endpoint
 1. Create a new record in the domain package.
 2. Add the record to the reflect-config.json file.
 3. Add the record to the LiquibaseRuntimeHints class.
+
+## New XML/resource files
+1. Add the new XML/resource files to the resources directory.
+2. Add the new XML/resource files to the LiquibaseRuntimeHints class.
+3. Make sure to update the Liquibase changelog files if necessary to include any new database changes related to the new XML/resource files.
