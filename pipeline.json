@@ -4,8 +4,8 @@
   "is_unit_test": "no",
   "language": "java",
   "testPackages": "",
-  "sonarCoverageInclusions": "src/main/java/**/*",
-  "sonarTestInclusions": "src/main/java/**/*",
+  "sonarCoverageInclusions": "**/*.java",
+  "sonarTestInclusions": "**/*Test.java",
   "enableSCA": "true",
   "enableSCAHardGate": "false",
   "needEnvFile": "no"
