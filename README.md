@@ -13,7 +13,12 @@ New endpoint
 └── New XML/resource files?
 └── LiquibaseRuntimeHints → hints.resources().registerPattern("...")
 
-# Adding new domain record
+## Public endpoint
+1. Create a new endpoint in the controller.
+2. Add the endpoint to the SecurityConfig class to allow public access.
+3. Add the endpoint to the JwtAuthFilter class to skip JWT validation for that endpoint.
+
+## Adding new domain record
 1. Create a new record in the domain package.
 2. Add the record to the reflect-config.json file.
 3. Add the record to the LiquibaseRuntimeHints class.
