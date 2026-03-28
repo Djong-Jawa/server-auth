@@ -12,3 +12,8 @@ New endpoint
 │   └── LiquibaseRuntimeHints → rh.registerType(...)
 └── New XML/resource files?
 └── LiquibaseRuntimeHints → hints.resources().registerPattern("...")
+
+# Adding new domain record
+1. Create a new record in the domain package.
+2. Add the record to the reflect-config.json file.
+3. Add the record to the LiquibaseRuntimeHints class.
