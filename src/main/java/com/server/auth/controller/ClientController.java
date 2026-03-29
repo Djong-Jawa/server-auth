@@ -22,6 +22,7 @@ public class ClientController {
     @ApiResponse(responseCode = "500", content = @Content(schema = @Schema(implementation = ApiErrorResponseDto.class)))
     @GetMapping("/get-all")
     public String getAll() {
+        System.out.println("Get all clients **********");
         return "";
     }
 
