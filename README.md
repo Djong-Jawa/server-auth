@@ -30,3 +30,4 @@ New endpoint
 
 ## CICD 
 1. Triggered by push to feature/*/* branches.
+2. Run tests and build the application.
