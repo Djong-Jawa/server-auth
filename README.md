@@ -27,3 +27,6 @@ New endpoint
 1. Add the new XML/resource files to the resources directory.
 2. Add the new XML/resource files to the LiquibaseRuntimeHints class.
 3. Make sure to update the Liquibase changelog files if necessary to include any new database changes related to the new XML/resource files.
+
+## CICD 
+1. Triggered by push to feature/*/* branches.
