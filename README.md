@@ -37,3 +37,4 @@ New endpoint
    - Jenkinsfile in the root of the repository.
    - Jenkins server with necessary plugins for building and deploying the application.
    - Proper credentials and permissions set up for accessing the repository and deployment environments.
+   - mvn package, mvn test, and deployment scripts configured in the Jenkinsfile.
