@@ -33,3 +33,7 @@ New endpoint
 2. Run tests and build the application.
 3. If the build is successful, the application is deployed to the staging environment for further testing
 4. If the tests in the staging environment are successful, the application is deployed to production.
+5. Jenkins requirements:
+   - Jenkinsfile in the root of the repository.
+   - Jenkins server with necessary plugins for building and deploying the application.
+   - Proper credentials and permissions set up for accessing the repository and deployment environments.
