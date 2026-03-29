@@ -32,3 +32,4 @@ New endpoint
 1. Triggered by push to feature/*/* branches.
 2. Run tests and build the application.
 3. If the build is successful, the application is deployed to the staging environment for further testing
+4. If the tests in the staging environment are successful, the application is deployed to production.
