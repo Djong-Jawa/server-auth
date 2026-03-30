@@ -8,5 +8,5 @@
   "sonarTestInclusions": "**/*Test.java",
   "enableSCA": "true",
   "enableSCAHardGate": "false",
-  "needEnvFile": "no"
+  "needEnvFile": "yes"
 }
