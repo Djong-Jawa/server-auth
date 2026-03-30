@@ -1,7 +1,5 @@
 server:
   port: {{SERVER_PORT}}
-  # graceful shutdown makes sure we have time to finnish any ongoing rest requests before terminating
-  # default value will be 30s before terminating
   shutdown: graceful
 
 spring:
@@ -20,12 +18,6 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog-master.xml
-
-#springdoc:
-#  api-docs:
-#    path: /authentication-docs
-#  swagger-ui:
-#    path: /authentication-docs/swagger-ui-custom.html
 
 logging.level:
   root: INFO
